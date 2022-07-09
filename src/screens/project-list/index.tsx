@@ -14,7 +14,7 @@ export const ProjectListScreens = () => {
     personId: '',
   }); // 请求参数
 
-  const debouncedParam = useDebounce(param, 2000);
+  const debouncedParam = useDebounce(param, 200);
 
   // 请求项目列表
   useEffect(() => {

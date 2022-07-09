@@ -1,20 +1,22 @@
 import { useEffect, useState } from 'react';
 
-export const isFalsy = (vaule) => (vaule === 0 ? false : !vaule);
+export const isFalsy = (vaule: any) => (vaule === 0 ? false : !vaule);
 
 /**
  * 删除对象属性值为空值的属性
  * @param {object} object
  * @returns
  */
-export const cleanObject = (object) => {
+export const cleanObject = (object: object) => {
   // 传入的对象，不改变对象本身
   // Object.assign({}, object)
   const newObject = { ...object };
   Object.keys(newObject).forEach((key) => {
+    // @ts-ignore
     const vaule = newObject[key];
     // 属性值为0， 不删除
     if (isFalsy(vaule)) {
+      // @ts-ignore
       delete newObject[key];
     }
   });
@@ -25,7 +27,7 @@ export const cleanObject = (object) => {
  * useEffect
  * @param {Function} callBack
  */
-export const useMount = (callBack) => {
+export const useMount = (callBack: () => void) => {
   useEffect(() => {
     callBack();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -64,7 +66,7 @@ export const useMount = (callBack) => {
  * @param {object} value
  * @param {number} delay
  */
-export const useDebounce = (value, delay) => {
+export const useDebounce = (value: any, delay?: number) => {
   const [debouncedValue, setDebouncedValue] = useState(value);
 
   useEffect(() => {
