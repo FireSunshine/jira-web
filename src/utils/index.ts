@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-export const isFalsy = (vaule: any) => (vaule === 0 ? false : !vaule);
+export const isFalsy = (vaule: unknown) => (vaule === 0 ? false : !vaule);
 
 /**
  * 删除对象属性值为空值的属性
@@ -66,7 +66,7 @@ export const useMount = (callBack: () => void) => {
  * @param {object} value
  * @param {number} delay
  */
-export const useDebounce = (value: any, delay?: number) => {
+export const useDebounce = <V>(value: V, delay?: number): V => {
   const [debouncedValue, setDebouncedValue] = useState(value);
 
   useEffect(() => {
