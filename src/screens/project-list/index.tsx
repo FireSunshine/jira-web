@@ -1,10 +1,8 @@
 import { SearchPanel } from './SearchPanel';
 import { List } from './List';
 import { useEffect, useState } from 'react';
-import * as qs from 'qs';
 import { cleanObject, useDebounce, useMount } from 'utils';
-
-const apiUrl = process.env.REACT_APP_API_URL;
+import { useHttp } from 'utils/http';
 
 export const ProjectListScreens = () => {
   const [users, setUsers] = useState([]); // 用户列表
@@ -13,25 +11,19 @@ export const ProjectListScreens = () => {
     name: '',
     personId: '',
   }); // 请求参数
+  const client = useHttp();
 
   const debouncedParam = useDebounce(param, 200);
 
   // 请求项目列表
   useEffect(() => {
-    fetch(`${apiUrl}/projects?${qs.stringify(cleanObject(debouncedParam))}`).then(async (response) => {
-      if (response.ok) {
-        setList(await response.json());
-      }
-    });
+    client('projects', { data: cleanObject(debouncedParam) }).then(setList);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedParam]);
 
   // 请求用户列表
   useMount(() => {
-    fetch(`${apiUrl}/users`).then(async (response) => {
-      if (response.ok) {
-        setUsers(await response.json());
-      }
-    });
+    client('users', {}).then(setUsers);
   });
   return (
     <div>
