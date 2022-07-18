@@ -39,7 +39,46 @@ export const http = async (endpoint: string, { data, token, headers, ...customCo
   });
 };
 
+// js 中的typeof，是在runtime时运行的
+// return typeof 1 === number
+
+// ts 中的typeof， 是在静态环境运行的
+// return (...[endpoint, config]: Parameters<typeof http>) =>
 export const useHttp = () => {
   const { user } = useAuth();
+  // utility type 的用法：用泛型给它传入一个其他类型，然后utility type对这个类型进行某种操作
   return (...[endpoint, config]: Parameters<typeof http>) => http(endpoint, { ...config, token: user?.token });
 };
+
+// 类型别名、Utility Type
+// 联合类型
+// let myFavoriteNumber: string | number;
+// myFavoriteNumber = 'serven';
+// myFavoriteNumber = 7;
+// 不能将类型“{}”分配给类型“string | number”
+// myFavoriteNumber = {}
+
+// 类型别名在很多情况下可以和interface互换
+// interface Person {
+//   name: string;
+// }
+// type Person = { name: string };
+// const xiaoming: Person = { name: 'xiaoming' };
+
+// 类型别名， interface 在这种情况下没法替换type
+// type FavoriteNumber = string | number;
+// let roseFavoriterNumber: FavoriteNumber = '6';
+
+// interface 也没办法实现 Utility Type
+// type Person = {
+//   name: string;
+//   age: number;
+// };
+// const xiaoming1: Partial<Person> = { name: 'xiaoming' };
+// const xiaoming2: Partial<Person> = { age: 6 };
+// const xiaoming3: Partial<Person> = {};
+
+// const shengMiren: Omit<Person, 'name' | 'age'> = {};
+// type PersonKeys = keyof Person;
+// type PersonOnlyName = Pick<Person, 'name' | 'age'>;
+// type Age = Exclude<PersonKeys, 'name'>;
