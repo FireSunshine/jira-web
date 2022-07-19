@@ -1,5 +1,7 @@
-import { Button, Form, Input } from 'antd';
+import { Form, Input } from 'antd';
 import { useAuth } from 'context/auth-context';
+import { LongButton } from 'unauthenticated-app';
+import { LockOutlined, UserOutlined } from '@ant-design/icons';
 
 export const LoginScreen = () => {
   // interface Base {
@@ -24,15 +26,27 @@ export const LoginScreen = () => {
   return (
     <Form onFinish={handleSubmit}>
       <Form.Item name="username" rules={[{ required: true, message: '请输入用户名' }]}>
-        <Input type="text" placeholder="用户名" name="username" id="username" />
+        <Input
+          type="text"
+          placeholder="Username"
+          name="username"
+          id="username"
+          prefix={<UserOutlined className="site-form-item-icon" />}
+        />
       </Form.Item>
       <Form.Item name="password" rules={[{ required: true, message: '请输入密码' }]}>
-        <Input type="password" placeholder="密码" name="password" id="password" />
+        <Input.Password
+          type="password"
+          placeholder="Password"
+          name="password"
+          id="password"
+          prefix={<LockOutlined className="site-form-item-icon" />}
+        />
       </Form.Item>
       <Form.Item>
-        <Button htmlType="submit" type="primary">
+        <LongButton htmlType="submit" type="primary">
           登录
-        </Button>
+        </LongButton>
       </Form.Item>
     </Form>
   );
