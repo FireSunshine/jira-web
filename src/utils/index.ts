@@ -1,22 +1,21 @@
 import { useEffect, useState } from 'react';
 
 export const isFalsy = (vaule: unknown) => (vaule === 0 ? false : !vaule);
+export const isVoid = (value: unknown) => value === undefined || value === null || value === '';
 
 /**
  * 删除对象属性值为空值的属性
  * @param {object} object
  * @returns
  */
-export const cleanObject = (object: object) => {
+export const cleanObject = (object: { [key: string]: unknown }) => {
   // 传入的对象，不改变对象本身
   // Object.assign({}, object)
   const newObject = { ...object };
   Object.keys(newObject).forEach((key) => {
-    // @ts-ignore
     const vaule = newObject[key];
     // 属性值为0， 不删除
-    if (isFalsy(vaule)) {
-      // @ts-ignore
+    if (isVoid(vaule)) {
       delete newObject[key];
     }
   });
